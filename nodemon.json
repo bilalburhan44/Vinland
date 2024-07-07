@@ -1,0 +1,10 @@
+{
+    "verbose": true,
+    "ignore": [
+        "soft-ui-dashboard-react-main"
+    ],
+    "execMap" : {
+        "rby" : "ruby",
+        "pde" : "processing --sketch={{pwd}} --run"
+    }
+}
