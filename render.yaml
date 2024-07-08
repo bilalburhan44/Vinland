@@ -11,7 +11,7 @@ services:
       - key: DB_USER
         value: root
       - key: DB_PASS
-        value: your_password
+        value: 
       - key: DB_HOST
         value: your_database_host
       - key: DB_DIALECT
