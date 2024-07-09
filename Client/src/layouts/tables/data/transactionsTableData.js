@@ -4,9 +4,7 @@ import SoftBadge from "components/SoftBadge";
 
 import React, { useState, useEffect } from 'react';
 import { getTransactions } from "apicalls/transaction";
-import { getUserById } from "apicalls/users"; // Import the function to fetch user by ID
 import PropTypes from "prop-types"; // Import PropTypes
-import { getClientById } from "apicalls/client";
 import moment from 'moment-timezone';
 
 
@@ -34,8 +32,6 @@ Client.propTypes = {
 const TransactionsTableData = () => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [clientDetails, setClientDetails] = useState([])
-    const [userDetails, setUserDetails] = useState([])
     const fetchData = async () => {
         try {
                 const response = await getTransactions();
@@ -53,7 +49,7 @@ const TransactionsTableData = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [transactions]);
 
     const formatUSD = (amount) => {
         return `$${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
