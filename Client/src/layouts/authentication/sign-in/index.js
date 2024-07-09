@@ -33,6 +33,7 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import curved9 from "assets/images/curved-images/curved-6.jpg";
 
+import { message } from "antd";
 function SignIn() {
   const [rememberMe, setRememberMe] = useState(true);
   const location = useLocation();
@@ -50,8 +51,9 @@ const onsubmit = async (event) => {
       if (response.success) {
         localStorage.setItem("token", response.data);
         navigate("/dashboard");
+        message.success(response.message)
       } else {
-        throw new Error(response.message);
+        message.error(response.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
