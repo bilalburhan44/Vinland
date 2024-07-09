@@ -56,11 +56,12 @@ function SignUp() {
       const response = await RegisterUser(formValues);
     
       if (response.success) {
-      message.success("user created successfuly")
         navigate("/dashboard");
+        message.success(response.message);
         return;
       }
-      throw new Error(response.message);
+      message.error(response.message);
+
     } catch (error) {
       console.error("Error :",error)
     }
