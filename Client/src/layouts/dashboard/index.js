@@ -97,7 +97,7 @@ function Dashboard() {
           </Grid>
              <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Today's Money (USD)" }}
+                title={{ text: "Total Money (USD)" }}
                 count={wallet.totalAmountUSD ? formatUSD(wallet.totalAmountUSD) : "$0.00"}
                 
                 icon={{ color: "info", component: "paid" }}
@@ -105,7 +105,7 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "Today's Money (IQD)" }}
+                title={{ text: "Total Money (IQD)" }}
                 count={wallet.totalAmountIQD ? formatIQD(wallet.totalAmountIQD) : "0"}
                 
                 icon={{ color: "info", component: "paid" }}
