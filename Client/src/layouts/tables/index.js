@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from "react";
+import React , { useState } from "react";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -32,11 +32,30 @@ import Table from "examples/Tables/Table";
 import TransactionsTableData from "layouts/tables/data/transactionsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import TransactionModal from "components/Modal/transactionModal";
+import TablePagination from "@mui/material/TablePagination";
+
 function Tables() {
   const transactionsTableData = TransactionsTableData();
   const { columns, rows } = transactionsTableData;
   const { columns: prCols, rows: prRows } = projectsTableData;
   const [open, setOpen] = React.useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Number of rows per page
+
+  // Handle page change
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle rows per page change
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Calculate the index of the first and last rows to display
+  const lastIndex = page * rowsPerPage + rowsPerPage;
+  const firstIndex = page * rowsPerPage;
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -61,7 +80,32 @@ function Tables() {
                 },
               }}
             >
-              <Table columns={columns} rows={rows} />
+            <Table
+            columns={columns}
+            rows={rows.slice(firstIndex, lastIndex)} // Slice rows based on pagination
+            />
+            <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "16px", // Adjust margin top as needed
+        }}
+        SelectProps={{
+          style: {
+            fontSize: "0.875rem", // Adjust font size
+            marginRight: "8px", // Adjust margin right as needed
+          },
+        }}
+        labelRowsPerPage="Rows per page:" // Customize label
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} of ${count}`}
+      />
             </SoftBox>
           </Card>
         </SoftBox>
