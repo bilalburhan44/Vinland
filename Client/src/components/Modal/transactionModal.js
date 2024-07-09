@@ -1,13 +1,13 @@
 import { Form, Input, Modal, message, DatePicker, TimePicker, Select } from 'antd'
 import { addTransaction } from 'apicalls/transaction';
-import React from 'react'
+import React , { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types'
 
 
 function TransactionModal(
   {  open,
-    setOpen
+    setOpen 
 }
 ) {
     const formRef = React.useRef();
@@ -16,7 +16,6 @@ function TransactionModal(
     const dispatch = useDispatch()
     const { Option } = Select;
     const [paymentValue, setPaymentValue] = React.useState(''); // State to store the selected payment value
-
 // Function to handle change in the Payment Select
 const handlePaymentChange = (value) => {
     setPaymentValue(value); // Update the payment value state
@@ -24,7 +23,6 @@ const handlePaymentChange = (value) => {
     const onFinish = async (values) => {
         const date = new Date(values.date); // Create a new Date object from the selected date
         const dateUTC = date.toISOString() // Convert selected date to UTC
-
         try {
             const response = await addTransaction({...values, date: dateUTC, userId : user.data.id});
             if (response.success) {
@@ -108,6 +106,6 @@ const handlePaymentChange = (value) => {
 TransactionModal.propTypes = {
     open: PropTypes.bool.isRequired,
     setOpen: PropTypes.func.isRequired,
-  };
+};
 
 export default TransactionModal
