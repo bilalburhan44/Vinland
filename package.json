@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "server/server.js",
   "scripts": {
     "build": "cd Client && npm install && npm run build && cd ../server && npm install",
     "start": "node server/server.js",
