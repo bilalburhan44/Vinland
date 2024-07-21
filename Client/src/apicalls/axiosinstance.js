@@ -1,7 +1,9 @@
 import axios from 'axios';
+require('dotenv').config();
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000', // or your actual backend URL
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
 },
