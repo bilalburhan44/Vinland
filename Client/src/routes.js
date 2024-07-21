@@ -54,6 +54,9 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import { useSelector } from "react-redux";
+import DailyTotal from "layouts/daily-total";
+
 
 const routes = [
   {
@@ -67,31 +70,40 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tables",
-    key: "tables",
-    route: "/tables",
+    name: "Transactions",
+    key: "transactions",
+    route: "/transactions",
     icon: <Office size="12px" />,
     component: <Tables />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
-    route: "/billing",
-    icon: <CreditCard size="12px" />,
-    component: <Billing />,
+    name: "Daily Transactions",
+    key: "daily-total",
+    route: "/daily-total",
+    icon: <Document size="12px" />,
+    component: <DailyTotal />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Virtual Reality",
-    key: "virtual-reality",
-    route: "/virtual-reality",
-    icon: <Cube size="12px" />,
-    component: <VirtualReality />,
+    name: "Clients",
+    key: "clients",
+    route: "/clients",
+    icon: <CreditCard size="12px" />,
+    component: <Billing />,
     noCollapse: true,
   },
+  // {
+  //   type: "collapse",
+  //   name: "Virtual Reality",
+  //   key: "virtual-reality",
+  //   route: "/virtual-reality",
+  //   icon: <Cube size="12px" />,
+  //   component: <VirtualReality />,
+  //   noCollapse: true,
+  // },
   {
     type: "collapse",
     name: "RTL",
@@ -102,29 +114,29 @@ const routes = [
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },
-  {
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   route: "/profile",
+  //   icon: <CustomerSupport size="12px" />,
+  //   component: <Profile />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   route: "/authentication/sign-in",
+  //   icon: <Document size="12px" />,
+  //   component: <SignIn />,
+  //   noCollapse: true,
+  // },
+   {
     type: "collapse",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
-    icon: <CustomerSupport size="12px" />,
-    component: <Profile />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/authentication/sign-in",
-    icon: <Document size="12px" />,
-    component: <SignIn />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
+    name: "Add User",
+    key: "add user",
+    route: "/Add User",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
     noCollapse: true,
