@@ -13,11 +13,22 @@ require('./models/syncModel'); // Ensure models are synced
 app.use(express.json());
 const cors = require('cors');
 
-app.use(cors({
-  origin: 'http://localhost:3000', // Set the correct origin
+const allowedOrigins = ['http://localhost:3000', 'https://669e4e836715bd0008dc553b--vinlandkitchen.netlify.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
-}));
+};
 
 
 // Middleware and other routes
