@@ -17,6 +17,7 @@ app.use(cors({
   origin: 'https://main--vinlandkitchen.netlify.app', // Set the correct origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 
