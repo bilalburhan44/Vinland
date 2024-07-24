@@ -13,7 +13,7 @@ require('./models/syncModel'); // Ensure models are synced
 app.use(express.json());
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:3000', 'https://669e4e836715bd0008dc553b--vinlandkitchen.netlify.app'];
+const allowedOrigins = ['http://localhost:3000', 'https://main--vinlandkitchen.netlify.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
