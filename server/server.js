@@ -14,7 +14,7 @@ app.use(express.json());
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'https://main--vinlandkitchen.netlify.app', // Set the correct origin
+  origin: process.env.NODE_ENV === 'production' ? 'https://main--vinlandkitchen.netlify.app' : 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
