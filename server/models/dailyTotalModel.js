@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconfig');
 
-const DailyTotal = sequelize.define('DailyTotal', {
+const DailyTotal = sequelize.define('dailytotals', {
   date: {
     type: DataTypes.DATEONLY,
     primaryKey: true,
