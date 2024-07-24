@@ -1,12 +1,13 @@
-const sequelize = require('../config/dbconfig');
 const { DataTypes } = require('sequelize');
-const ExchangeRate = sequelize.define('ExchangeRate', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    rate: {
+const sequelize = require('../config/dbconfig');
+
+const ExchangeRate = sequelize.define('exchangerate', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  rate: {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
@@ -15,6 +16,13 @@ const ExchangeRate = sequelize.define('ExchangeRate', {
     allowNull: false,
     defaultValue: sequelize.fn('now'),
   },
+}, {
+  indexes: [
+    {
+      unique: true,
+      fields: ['rate'],
+    },
+  ],
 });
 
-module.exports = ExchangeRate
+module.exports = ExchangeRate;
