@@ -12,22 +12,11 @@ const path = require('path');
 
 require('./models/syncModel'); // Ensure models are synced
 
-const allowedOrigins = ['http://localhost:3000', 'https://main--vinlandkitchen.netlify.app'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+app.use(cors({
+  origin: 'https://main--vinlandkitchen.netlify.app', // Set the correct origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
-};
+}));
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
