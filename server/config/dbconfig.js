@@ -7,10 +7,20 @@ const sequelize = new Sequelize( process.env.DB_NAME,
   process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: 'mysql',
+  port: process.env.DB_PORT || 3306,
   timezone: '+03:00', // Adjust the timezone offset for Baghdad
   logging: false, // Disable logging
   define: {
     timestamps: true,
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000, // Default pool acquire timeout
+    idle: 10000,
+  },
+  dialectOptions: {
+    connectTimeout: 60000 // Increase connection timeout to 60 seconds
   },
 });
 
