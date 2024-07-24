@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconfig');
 const DailyTotal = require('./dailyTotalModel');
 
-const Wallet = sequelize.define('Wallet', {
+const Wallet = sequelize.define('wallets', {
   totalAmountUSD: {
     type: DataTypes.FLOAT,
     allowNull: false,
