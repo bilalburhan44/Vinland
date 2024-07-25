@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+const cors = require('cors');
+
+// Import your routes
 const exchangeRateRoutes = require('./routes/exchangeRoute');
 const transactionRoute = require('./routes/transactionRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -8,11 +12,10 @@ const walletRoutes = require('./routes/walletRoutes');
 const conversionRoute = require('./routes/conversionRoute');
 const dailyTotalRoute = require('./routes/dailyTotalRoute');
 
-require('./models/syncModel'); // Ensure models are synced
+// Ensure models are synced
+require('./models/syncModel');
 
-app.use(express.json());
-const cors = require('cors');
-
+// Configure CORS
 const corsOptions = {
   origin: 'https://main--vinlandkitchen.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -22,9 +25,18 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Manually handle preflight requests
+app.options('*', cors(corsOptions));
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log('Request received:', req.method, req.path);
+  next();
+});
 
 
-// Middleware and other routes
+// Define your routes
 app.use('/api/exchangeRate', exchangeRateRoutes);
 app.use('/api/transactions', transactionRoute);
 app.use('/api/users', userRoutes);
@@ -33,8 +45,7 @@ app.use('/api/wallet', walletRoutes);
 app.use('/api/conversion', conversionRoute);
 app.use('/api/dailyTotal', dailyTotalRoute);
 
-// Deploy config for serving static files (if applicable)
-const path = require('path');
+// Serve static files in production
 __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
