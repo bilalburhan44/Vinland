@@ -64,3 +64,17 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Middleware to log headers
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers);
+  next();
+});
+
+// Middleware to log response headers
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    console.log('Response Headers:', res.getHeaders());
+  });
+  next();
+});
