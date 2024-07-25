@@ -1,7 +1,8 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 const cors = require('cors');
+
+const app = express();
 
 // Import your routes
 const exchangeRateRoutes = require('./routes/exchangeRoute');
@@ -24,19 +25,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
+// Log incoming requests
 app.use((req, res, next) => {
   console.log(`Request received: ${req.method} ${req.path}`);
-  next();
-});
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://main--vinlandkitchen.netlify.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
 
