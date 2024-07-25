@@ -1,3 +1,8 @@
 [build]
 command = "NODE_ENV=development CI=false npm run build -- --force --legacy-peer-deps"
 publish = "Client/build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
