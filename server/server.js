@@ -13,12 +13,15 @@ require('./models/syncModel'); // Ensure models are synced
 app.use(express.json());
 const cors = require('cors');
 
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://main--vinlandkitchen.netlify.app' : 'http://localhost:3000',
+const corsOptions = {
+  origin: 'https://main--vinlandkitchen.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
+
+app.use(cors(corsOptions));
+
 
 
 // Middleware and other routes
