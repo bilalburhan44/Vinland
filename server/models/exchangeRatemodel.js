@@ -17,12 +17,7 @@ const ExchangeRate = sequelize.define('exchangerates', {
     defaultValue: sequelize.fn('now'),
   },
 }, {
-  indexes: [
-    {
-      unique: true,
-      fields: ['rate'],
-    },
-  ],
+  tableName: 'exchangerates',
 });
 
 module.exports = ExchangeRate;
