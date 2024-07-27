@@ -50,12 +50,12 @@ const Transaction = sequelize.define('Transaction', {
       key: 'id',
     },
   },
-  rate: {
-    type: DataTypes.FLOAT,
-    allowNull: true,
+  rate_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: ExchangeRate,
-      key: 'rate',
+      key: 'id',
     },
   },
   createdAt: {
