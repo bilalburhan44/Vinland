@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbconfig');
 
-const ExchangeRate = sequelize.define('exchangerate', {
+const ExchangeRate = sequelize.define('exchangerates', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
