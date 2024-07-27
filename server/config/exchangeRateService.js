@@ -17,21 +17,11 @@ bot.on('message', async (msg) => {
 
   if (exchangeRate !== null) { // Check for strict null
     try {
-      // Check if exchange rate record with ID 1 exists
-      let existingExchangeRate = await ExchangeRate.findOne({ where: { id: 1 } });
-
-      if (existingExchangeRate) {
-        // Update existing exchange rate
-        existingExchangeRate.rate = exchangeRate;
-        await existingExchangeRate.save();
-        console.log('Updated exchange rate in database:', existingExchangeRate.rate);
-      } else {
-        // Create new exchange rate entry
-        const newExchangeRate = await ExchangeRate.create({ rate: exchangeRate });
-        console.log('Created new exchange rate entry in database:', newExchangeRate.rate);
-      }
+      // Create a new exchange rate entry
+      const newExchangeRate = await ExchangeRate.create({ rate: exchangeRate });
+      console.log('Created new exchange rate entry in database:', newExchangeRate.rate);
     } catch (error) {
-      console.error('Error updating or creating exchange rate:', error.message);
+      console.error('Error creating new exchange rate:', error.message);
     }
   } else {
     console.error('Invalid message format or exchange rate not found:', messageText);
@@ -43,6 +33,5 @@ const extractExchangeRate = (message) => {
   const match = message.match(regex);
   return match ? parseFloat(match[1].replace(/,/g, '')) : null; // Return the captured rate part, remove commas, and convert to float
 };
-
 
 module.exports = bot;
