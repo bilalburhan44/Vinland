@@ -34,11 +34,13 @@ if (!existingClient) {
   client = existingClient;
 }
 
-const currentExchangeRate = await ExchangeRate.findOne({
- where : {
-  id : 1
- }
-});
+const latestExchangeRate = await ExchangeRate.findOne({
+      order: [['updatedAt', 'DESC']],
+    });
+
+    if (!latestExchangeRate) {
+      throw new Error('No exchange rate found');
+    }
 
 
     // Insert data into Transaction model
@@ -49,7 +51,7 @@ const currentExchangeRate = await ExchangeRate.findOne({
       amount_iqd,
       description,
       date,
-      rate: currentExchangeRate.rate,
+      rate_id: latestExchangeRate.id,
       user_id: userId,
       client_id: client.id,
     });
