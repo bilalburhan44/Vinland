@@ -1,4 +1,5 @@
-module.exports = {
+module.exports = function(api) {
+    const isDevelopment = api.env('development');
     presets: ['react-app'],
     plugins: [
       '@babel/plugin-proposal-private-property-in-object',
@@ -7,7 +8,7 @@ module.exports = {
       '@babel/plugin-transform-numeric-separator',
       '@babel/plugin-transform-optional-chaining',
       '@babel/plugin-transform-private-methods',
-      process.env.NODE_ENV === 'development' && require('react-refresh/babel'),
+      isDevelopment && 'react-refresh/babel',
     ].filter(Boolean)
   };
   
