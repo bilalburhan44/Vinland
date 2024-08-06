@@ -8,7 +8,6 @@ module.exports = function (api) {
     '@babel/plugin-transform-numeric-separator',
     '@babel/plugin-transform-optional-chaining',
     '@babel/plugin-transform-private-methods',
-     ['react-refresh/babel', { skipEnvCheck: true }],
   ].filter(Boolean);
 
   return {
