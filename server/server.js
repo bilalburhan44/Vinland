@@ -21,7 +21,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(cors({
-  origin: process.env.NODE_ENV === 'development' ? 'https://marketify-qcnh.onrender.com' : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://marketify-qcnh.onrender.com' : 'http://localhost:3000',
   methods: ['GET', 'POST'],
   credentials: true,
 }));
@@ -40,7 +40,7 @@ app.use('/api/projects', projectRoute);
 // Deploy config for serving static files (if applicable)
 const path = require('path');
 __dirname = path.resolve();
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
