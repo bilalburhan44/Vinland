@@ -6,7 +6,8 @@ module.exports = {
       '@babel/plugin-transform-nullish-coalescing-operator',
       '@babel/plugin-transform-numeric-separator',
       '@babel/plugin-transform-optional-chaining',
-      '@babel/plugin-transform-private-methods'
-    ]
+      '@babel/plugin-transform-private-methods',
+      process.env.NODE_ENV === 'development' && require('react-refresh/babel'),
+    ].filter(Boolean)
   };
   
