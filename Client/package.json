@@ -85,6 +85,7 @@
     "@babel/plugin-transform-numeric-separator": "^7.24.7",
     "@babel/plugin-transform-optional-chaining": "^7.24.8",
     "@babel/plugin-transform-private-methods": "^7.24.7",
+    "react-refresh": "^0.14.0",
     "babel-preset-react-app": "^10.0.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "9.1.0",
