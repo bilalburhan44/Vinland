@@ -1,5 +1,5 @@
 [build]
-  command = "NODE_ENV=development npm run build -- --force --legacy-peer-deps"
+  command = " npm run build -- --force --legacy-peer-deps"
   publish = "Client/build"
 
 [[redirects]]
