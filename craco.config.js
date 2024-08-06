@@ -1,16 +1,19 @@
-const CracoAlias = require('craco-alias');
+const path = require('path');
 
 module.exports = {
   webpack: {
-    alias: {
-      ...CracoAlias({
-        source: "tsconfig",
-        baseUrl: "./src",
-        tsConfigPath: "./tsconfig.paths.json",
-      }),
-    },
-  },
-  babel: {
-    plugins: process.env.NODE_ENV === 'development' ? ['react-refresh/babel'] : [],
-  },
+    configure: (webpackConfig) => {
+      webpackConfig.resolve = {
+        ...webpackConfig.resolve,
+        fallback: {
+          ...webpackConfig.resolve.fallback,
+          "fs": false,
+          "path": require.resolve("path-browserify"),
+          "os": require.resolve("os-browserify/browser")
+        }
+      };
+      return webpackConfig;
+    }
+  }
 };
+
