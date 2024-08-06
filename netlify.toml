@@ -1,6 +1,7 @@
 [build]
-  command = "npm run build"
+  command = "NODE_ENV=development npm run build"
   publish = "Client/build"
+
 
 [[redirects]]
   from = "/*"
