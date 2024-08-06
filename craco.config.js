@@ -17,12 +17,6 @@ module.exports = {
         const babelLoader = webpackConfig.module.rules.find(
           rule => rule.loader && rule.loader.includes('babel-loader')
         );
-
-        if (babelLoader) {
-          babelLoader.options.plugins = babelLoader.options.plugins.filter(
-            plugin => !plugin.includes('react-refresh/babel')
-          );
-        }
       }
 
       return webpackConfig;
