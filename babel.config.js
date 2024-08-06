@@ -8,9 +8,7 @@ module.exports = function (api) {
     '@babel/plugin-transform-numeric-separator',
     '@babel/plugin-transform-optional-chaining',
     '@babel/plugin-transform-private-methods',
-    process.env.NODE_ENV === 'development'
-      ? ['react-refresh/babel', { skipEnvCheck: true }]
-      : [],
+     ['react-refresh/babel', { skipEnvCheck: true }],
   ].filter(Boolean);
 
   return {
