@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
 
-  const presets = ['react-app'];
+  const presets = ['react-app',"@babel/preset-env", "@babel/preset-react"];
   const plugins = [
     '@babel/plugin-proposal-private-property-in-object',
     '@babel/plugin-transform-class-properties',
@@ -9,11 +9,8 @@ module.exports = function (api) {
     '@babel/plugin-transform-numeric-separator',
     '@babel/plugin-transform-optional-chaining',
     '@babel/plugin-transform-private-methods',
+    process.env.NODE_ENV === 'development' ? ['react-refresh/babel'] : []
   ];
-
-  if (process.env.NODE_ENV === 'development') {
-    plugins.push(require('react-refresh/babel'));
-  }
 
   return {
     presets,
