@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   webpack: {
-    configure: (webpackConfig, { env, paths }) => {
+    configure: (webpackConfig, { env }) => {
       webpackConfig.resolve = {
         ...webpackConfig.resolve,
         fallback: {
@@ -20,7 +20,7 @@ module.exports = {
 
         if (babelLoader) {
           babelLoader.options.plugins = babelLoader.options.plugins.filter(
-            plugin => !plugin[1] || !plugin[1].development
+            plugin => !plugin.includes('react-refresh/babel')
           );
         }
       }
