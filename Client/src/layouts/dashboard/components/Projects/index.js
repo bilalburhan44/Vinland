@@ -29,10 +29,10 @@ import SoftTypography from "components/SoftTypography";
 import Table from "examples/Tables/Table";
 
 // Data
-import data from "layouts/dashboard/components/Projects/data";
+import Data from "layouts/dashboard/components/Projects/Data";
 
 function Projects() {
-  const { columns, rows } = data();
+  const { columns, rows } = Data();
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
