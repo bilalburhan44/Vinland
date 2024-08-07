@@ -91,7 +91,7 @@ function Tables() {
     setOpen(true);
   };
 
-  const transactionsTableData = TransactionsTableData({ filters, onEdit: handleEditTransaction, transactions, project });
+  const transactionsTableData = TransactionsTableData({ filters, onEdit: handleEditTransaction, transactions, project, fetchData });
   const { columns, rows } = transactionsTableData;
   const { columns: prCols, rows: prRows } = projectsTableData;
 
