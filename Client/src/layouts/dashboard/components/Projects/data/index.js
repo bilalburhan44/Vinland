@@ -14,7 +14,7 @@ import React from "react";
 import { getAllProjects } from "apicalls/projects";
 import { message } from "antd";
 
-export default function data() {
+const Data = () => {
   const [projects, setProjects] = React.useState([]);
 
   const formatUSD = (amount) => {
@@ -89,3 +89,5 @@ export default function data() {
     rows: rows,
   };
 }
+
+export default Data
