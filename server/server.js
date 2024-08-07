@@ -14,16 +14,24 @@ require('./models/syncModel'); // Ensure models are synced
 app.use(express.json());
 const cors = require('cors');
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://marketify-qcnh.onrender.com',
+  'https://main--vinlandkitchen.netlify.app'
+];
+
 app.use(cors({
-  origin: 'https://marketify-qcnh.onrender.com', // Set the correct origin
+  origin: (origin, callback) => {
+    // Check if the incoming origin is in the allowed origins array
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-app.use(cors({
-  origin: process.env.NODE_ENV === 'development' ? 'https://marketify-qcnh.onrender.com' : 'http://localhost:3000',
-  methods: ['GET', 'POST'],
-  credentials: true,
 }));
 
 
