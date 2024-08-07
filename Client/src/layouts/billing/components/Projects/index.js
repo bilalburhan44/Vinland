@@ -25,6 +25,8 @@ function Projects() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [transactions, setTransactions] = useState([]);
+  const [transactionToEdit, setTransactionToEdit] = useState(null); // State to track transaction to edit
+
 
   
   const handleBack = () => {
@@ -51,6 +53,12 @@ function Projects() {
     } catch (error) {
       message.error(error.message);
     }
+  };
+
+  const handleEditTransaction = (transaction) => {
+    setTransactionToEdit(transaction); // Set transaction to edit
+    setOpen(true); // Open the modal for editing
+    fetchTransactions();
   };
 
   const fetchTransactions = async (projectId) => {
@@ -143,7 +151,7 @@ function Projects() {
       ) : (
         projects.map((project) => {
           const tableData = ProjectsTableData({
-            transactions: transactions[project.id] || []
+            transactions: transactions[project.id] || [] , fetchTransactions, onEdit: handleEditTransaction
           });
           return (
             <SoftBox key={project.id} mb={3}>
