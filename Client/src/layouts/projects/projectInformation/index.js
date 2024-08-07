@@ -29,6 +29,7 @@ import ProjectsTableData from "layouts/billing/components/Projects/data/projects
 import { getTransaction } from "apicalls/transaction";
 import { useParams, useNavigate } from "react-router-dom";
 import { message } from "antd";
+import { deleteProject } from "apicalls/projects";
 
 function ProjectsInformation() {
     const [open, setOpen] = React.useState(false);
