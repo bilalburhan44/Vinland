@@ -29,7 +29,7 @@ function Client({ name, phone }) {
     phone: PropTypes.string.isRequired,
   };
 
-const ProjectsTableData = ({ transactions }) => {
+const ProjectsTableData = ({ transactions, fetchTransactions, onEdit }) => {
 
 
   const DeleteTransaction = async (id) => {
@@ -37,7 +37,7 @@ const ProjectsTableData = ({ transactions }) => {
       const response = await deleteTransaction(id);
       if (response?.success) {
         message.success(response?.message);
-        fetchData(); // Refresh data after deletion
+        fetchTransactions(); // Refresh data after deletion
       } else {
         throw new Error(response?.message);
       }
@@ -151,7 +151,6 @@ const ProjectsTableData = ({ transactions }) => {
       { name: "Desc", align: "left" },
       { name: "Date", align: "center" },
       { name: "By", align: "left" },
-      { name: "action", align: "center" },
     ],
     rows: rows,
   };
