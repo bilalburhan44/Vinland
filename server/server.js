@@ -15,7 +15,7 @@ app.use(express.json());
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Set the correct origin
+  origin: 'https://marketify-qcnh.onrender.com', // Set the correct origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
