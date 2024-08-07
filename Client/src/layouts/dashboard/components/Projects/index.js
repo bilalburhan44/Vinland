@@ -29,7 +29,7 @@ import SoftTypography from "components/SoftTypography";
 import Table from "examples/Tables/Table";
 
 // Data
-import Data from "layouts/dashboard/components/Projects/Data";
+import Data from "layouts/dashboard/components/Projects/data";
 
 function Projects() {
   const { columns, rows } = Data();
