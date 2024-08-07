@@ -31,7 +31,7 @@ Client.propTypes = {
   phone: PropTypes.string.isRequired,
 };
 
-const TransactionsTableData = ({ filters, onEdit, transactions, project }) => {
+const TransactionsTableData = ({ filters, onEdit, transactions, project, fetchData }) => {
 
   const DeleteTransaction = async (id) => {
     try {
