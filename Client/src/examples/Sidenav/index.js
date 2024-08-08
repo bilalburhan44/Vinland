@@ -59,7 +59,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   useEffect(() => {
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
-      setMiniSidenav(dispatch, window.innerWidth < 1200);
+      setMiniSidenav(dispatch, window.innerWidth < 768);
     }
 
     /** 
@@ -152,7 +152,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>close</Icon>
           </SoftTypography>
         </SoftBox>
-        <SoftBox component={NavLink} to="/" display="flex" alignItems="center">
+        <SoftBox component={NavLink} to="/dashboard" display="flex" alignItems="center">
           {brand && <SoftBox component="img" src={brand} alt="Vinland Logo" width="2rem" style={{ backgroundImage: 'none' }} />}
           {brandName && <SoftBox component="img" src={brandName} alt="Vinland Logo" width="4rem" style={{ backgroundImage: 'none' }} />}
         </SoftBox>
