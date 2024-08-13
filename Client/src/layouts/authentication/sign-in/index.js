@@ -50,14 +50,6 @@ function SignIn() {
       const response = await LoginUser({ email, password });
       if (response.success) {
         localStorage.setItem("token", response.data);
-        const tokenExpiration = 30 * 24 * 60 * 60 * 1000; // 50 days in milliseconds
-  
-        // Set timeout to remove token after 30 days
-        setTimeout(() => {
-          localStorage.removeItem('token');
-          // Add any additional logout logic here, e.g., redirect to login
-          navigate("/login");
-        }, tokenExpiration);
   
         navigate("/dashboard");
         message.success(response.message);
