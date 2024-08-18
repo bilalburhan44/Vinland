@@ -18,7 +18,7 @@ const Data = () => {
   const [projects, setProjects] = React.useState([]);
 
   const formatUSD = (amount) => {
-    return `$${amount.toLocaleString("en-US", {
+    return `$${amount?.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}`;
