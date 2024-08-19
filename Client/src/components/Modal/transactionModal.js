@@ -211,10 +211,10 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
           />
         </Form.Item>
         <Form.Item label="Client Name" name="clientName" rules={rules}>
-        <Input placeholder="Client Name" />
+        <Input placeholder="Client Name" disabled />
         </Form.Item>
         <Form.Item label="Phone Number" name="phoneNumber" rules={phonerules}>
-          <Input placeholder="Phone Number" />
+          <Input placeholder="Phone Number" disabled />
         </Form.Item>
         <Form.Item label="Type" name="type" rules={rules}>
           <Select
