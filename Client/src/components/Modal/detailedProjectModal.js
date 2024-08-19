@@ -77,7 +77,7 @@ function DetailedProjectModal({ open, setOpen, fetchProjects }) {
     const filteredOptions = clients
       .filter(client => client.name.toLowerCase().includes(value.toLowerCase()))
       .map(client => ({ value: client.name }));
-      setProjectOption(filteredOptions);
+      setClientOptions(filteredOptions);
   };
 
   return (
