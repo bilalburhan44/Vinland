@@ -30,9 +30,11 @@ import { getTransaction } from "apicalls/transaction";
 import { useParams, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { deleteProject } from "apicalls/projects";
+import DetailedProjectModal from "components/Modal/detailedProjectModal";
 
 function ProjectsInformation() {
     const [open, setOpen] = React.useState(false);
+    const [detailprojectopen, setDetailprojectopen] = React.useState(false);
     const [projects, setProjects] = React.useState([]);
     const [projectToEdit, setProjectToEdit] = React.useState(null);
     const [transactions, setTransactions] = useState([]);
@@ -108,7 +110,19 @@ function ProjectsInformation() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      
+      {detailprojectopen && (
+        <DetailedProjectModal
+        open={detailprojectopen}
+        setOpen={setDetailprojectopen}
+        fetchProjects={fetchProjects}
+        />
+      )}
+      <SoftBox display="flex" justifyContent="flex-end" mb={2}>
+        <SoftButton variant="gradient" color="info" onClick={() => setDetailprojectopen(!detailprojectopen)}>
+          <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+          &nbsp;add Project
+        </SoftButton>
+      </SoftBox>
       {projects?.length === 0 ? (
         <SoftBox
           display="flex"
@@ -124,7 +138,7 @@ function ProjectsInformation() {
                 No projects found
               </SoftTypography>
               <SoftTypography variant="body1" color="textSecondary" mt={2}>
-                It seems there are no projects associated with this client.
+                There are no projects available.
               </SoftTypography>
             </SoftBox>
           </Card>
