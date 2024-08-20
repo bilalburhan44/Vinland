@@ -42,10 +42,20 @@ export const updateTransaction = async (id, payload) => {
   }
 };
 
-// get transaction by id
+// get transaction by client id
 export const getTransaction = async (clientId, projectId) => {
   try {
       const response = await axiosInstance.get(`/api/transactions/getTransaction/${clientId}/${projectId}`);
+      return response.data;
+  } catch (error) {
+      return error.message;
+  }
+}
+
+// get transaction by user id
+export const getUserTransaction = async (userId) => {
+  try {
+      const response = await axiosInstance.get(`/api/transactions/getTransaction/${userId}`);
       return response.data;
   } catch (error) {
       return error.message;
