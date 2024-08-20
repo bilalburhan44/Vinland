@@ -97,6 +97,59 @@ router.post("/authentication/sign-up", async (req, res) => {
         }
       });
 
+
+  //get all users
+  router.get('/getAllUsers', async (req, res) => {
+    try {
+        const users = await User.findAll({order: [['createdAt', 'DESC']]});
+        res.send({
+            success: true,
+            data: users
+        });
+    } catch (error) {
+        res.send({
+            success: false,
+            message: error.message
+        });
+    }
+  });
+
+  // delete user 
+  router.delete('/deleteUser/:id', authMiddlewares, async (req, res) => {
+
+    try {
+      const { id } = req.params;
+      const user = await User.destroy({ where: { id: id } });
+      res.send({
+        success: true,
+        message: 'User deleted successfully'
+      }); 
+    } catch (error) {
+      res.send({
+        success: false,
+        message: 'Failed to delete user',
+      });
+    }
+  });
+
+  // update user
+  router.put('/updateUser/:id', authMiddlewares, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, email, password, role } = req.body;
+      const user = await User.update( { name, email, password, role }, { where: { id: id }});
+      res.send({
+        success: true,
+        message: 'User updated successfully'
+      }); 
+    } catch (error) {
+      res.send({
+        success: false,
+        message: 'Failed to update user',
+      });
+    }
+  });
+
     //   router.get('/getUserById', async (req, res) => {
     //     const userId = req.body.userId;
       
