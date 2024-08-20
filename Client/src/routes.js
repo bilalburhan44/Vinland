@@ -33,6 +33,8 @@ import DailyTotal from "layouts/daily-total";
 import Projects from "layouts/billing/components/Projects";
 import AllProjects from "layouts/projects";
 import ProjectsInformation from "layouts/projects/projectInformation";
+import CustomerSupport from "examples/Icons/CustomerSupport";
+import Users from "layouts/users";
 
 const getRoutes = (isAdmin) => [
   {
@@ -90,6 +92,17 @@ const getRoutes = (isAdmin) => [
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },
+  
+    {
+    type: "collapse",
+    name: "Users",
+    key: "users",
+    route: "/users",
+    icon: <CustomerSupport size="12px" />,
+    component: <Users />,
+    noCollapse: true,
+  }
+  ,
   isAdmin && {
     type: "collapse",
     name: "Add User",
