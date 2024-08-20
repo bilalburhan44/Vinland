@@ -438,7 +438,7 @@ router.put('/updateTransaction/:id', async (req, res) => {
   }
 });
 
-//get transaction by id
+//get transaction by client id
 router.get('/getTransaction/:clientId/:projectId', async (req, res) => {
   try {
     const { clientId, projectId } = req.params;
@@ -446,6 +446,41 @@ router.get('/getTransaction/:clientId/:projectId', async (req, res) => {
     let filter = {
       client_id: clientId,
       project_id: projectId
+    };
+
+    const transactions = await Transaction.findAll({
+      where: filter,
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Client,
+          attributes: ['id', 'name', 'phoneNumber'],
+        },
+        {
+          model: User,
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+
+    res.send({
+      success: true,
+      data: transactions
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message
+    });
+  }
+});
+//get transaction by user id
+router.get('/getTransaction/:userId', async (req, res) => {
+  try {
+    const { userId, projectId } = req.params;
+
+    let filter = {
+      user_id: userId,
     };
 
     const transactions = await Transaction.findAll({
