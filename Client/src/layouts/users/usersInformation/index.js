@@ -176,18 +176,6 @@ function UsersInformation() {
                     </SoftBox>
                     <SoftBox mb={1} lineHeight={0}>
                       <SoftTypography variant="caption" color="text">
-                        Password:&nbsp;&nbsp;&nbsp;
-                        <SoftTypography
-                          variant="caption"
-                          fontWeight="medium"
-                          textTransform="capitalize"
-                        >
-                          {cuser.password}
-                        </SoftTypography>
-                      </SoftTypography>
-                    </SoftBox>
-                    <SoftBox mb={1} lineHeight={0}>
-                      <SoftTypography variant="caption" color="text">
                         Role:&nbsp;&nbsp;&nbsp;
                         <SoftTypography
                           variant="caption"
