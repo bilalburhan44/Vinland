@@ -45,7 +45,6 @@ const DownloadTransactionPDF = ({ transaction, client }) => {
     // Add custom font to jsPDF
     doc.addFileToVFS("CustomFont.ttf", fontBase64);
     doc.addFont("CustomFont.ttf", "CustomFont", "normal");
-    doc.setFont("CustomFont");
 
     // Add logo and brand name next to each other
     doc.addImage(brand, "PNG", 10, 8, 17, 22);
@@ -53,7 +52,9 @@ const DownloadTransactionPDF = ({ transaction, client }) => {
 
     // Add header text
     doc.setFontSize(30);
-    doc.text("کۆمپانیایی ڤینلاند", 200, 20, { align: "right" });
+    doc.setFont("CustomFont");
+    doc.text("کۆمپانیای ڤینلاند", 200, 20, { align: "right" });
+
 
     // Add a line below header with specific color
     doc.setLineWidth(0.5);
@@ -61,6 +62,8 @@ const DownloadTransactionPDF = ({ transaction, client }) => {
     doc.line(10, 30, 200, 30);
 
     // Add client and date information
+    // set the font back to normal
+    doc.setFont("normal");
     doc.setFontSize(12);
     doc.text(`Client Name: ${client?.name}`, 10, 40);
     doc.text(`Date: ${moment(transaction.date).tz("Asia/Baghdad").format("YYYY-MM-DD")}`, 150, 40, {
@@ -72,7 +75,6 @@ const DownloadTransactionPDF = ({ transaction, client }) => {
     doc.setTextColor(255, 0, 0); // Set text color to red
     doc.text(`Transaction ID: ${transaction.transaction_id}`, 150, 50, { align: "right" });
     doc.setTextColor(0, 0, 0); // Reset text color to black
-    doc.setFont("CustomFont");
 
   const columns = ["IQD", "USD", "Description"];
   const rows = [
@@ -89,10 +91,6 @@ const DownloadTransactionPDF = ({ transaction, client }) => {
     halign: "center",
     cellPadding: 2,
   },
-  headStyles: {
-    font: "CustomFont", // Ensure the header uses the custom font
-    fontStyle: "normal",
-  },
   bodyStyles: {
     font: "CustomFont", // Ensure the body uses the custom font
     fontStyle: "normal",
@@ -105,8 +103,6 @@ doc.autoTable({
   body: [["Total : ", formatIQD(transaction.amount_iqd), formatUSD(transaction.amount_usd)]],
   theme: "plain",
   styles: {
-    font: "CustomFont", // Set your custom font here
-    fontStyle: "bold", // or "normal" if needed
     halign: "center",
   },
 });
