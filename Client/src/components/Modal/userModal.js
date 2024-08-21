@@ -18,7 +18,10 @@ function UserModal({ open, setOpen, userToEdit, fetchUsers  }) {
 
     useEffect(() => {
       if (userToEdit) {
-        formRef.current.setFieldsValue(userToEdit);
+        formRef.current.setFieldsValue({
+          name: userToEdit.name,
+          role: userToEdit.role,
+        });
       } else {
         formRef.current.resetFields();
       }
