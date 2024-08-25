@@ -41,14 +41,51 @@ function Tables() {
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [project, setProject] = useState([])
+  const [totalUSDIncome, setTotalUSDIncome] = useState(0);
+  const [totalUSDOutcome, setTotalUSDOutcome] = useState(0);
+  const [totalIQDIncome, setTotalIQDIncome] = useState(0);
+  const [totalIQDOutcome, setTotalIQDOutcome] = useState(0);
 
+
+  const formatUSD = (amount) => {
+    return `$${amount.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
+
+  const formatIQD = (amount) => {
+    return amount.toLocaleString("en-IQ");
+  };
 
   const fetchData = async () => {
     try {
       const response = await getTransactions(filters);
       if (response.success) {
         setTransactions(response.data);
-        // Collect transaction IDs
+        
+        // Calculate totals
+        const iqd_income = response.data.reduce((acc, transaction) => {
+          return transaction.type === 'income' ? acc + transaction.amount_iqd : acc;
+        }, 0);
+
+        const usd_income = response.data.reduce((acc, transaction) => {
+          return transaction.type === 'income' ? acc + transaction.amount_usd : acc;
+        }, 0);
+        
+        const iqd_outcome = response.data.reduce((acc, transaction) => {
+          return transaction.type === 'outcome' ? acc + transaction.amount_iqd : acc;
+        }, 0);
+
+        const usd_outcome = response.data.reduce((acc, transaction) => {
+          return transaction.type === 'outcome' ? acc + transaction.amount_usd : acc;
+        }, 0);
+
+        setTotalIQDIncome(iqd_income);
+        setTotalIQDOutcome(iqd_outcome);
+        setTotalUSDIncome(usd_income);
+        setTotalUSDOutcome(usd_outcome);
+
         const transactionIds = response.data.map((transaction) => transaction.transaction_id);
         fetchProjects(transactionIds);
       } else {
@@ -60,6 +97,10 @@ function Tables() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [filters]);
 
   const fetchProjects = async (transactionIds) => {
     try {
@@ -76,9 +117,6 @@ function Tables() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [filters]);
 
   const handleEditTransaction = (transaction) => {
     setTransactionToEdit(transaction); // Set transaction to edit
@@ -93,7 +131,6 @@ function Tables() {
 
   const transactionsTableData = TransactionsTableData({ filters, onEdit: handleEditTransaction, transactions, project, fetchData });
   const { columns, rows } = transactionsTableData;
-  const { columns: prCols, rows: prRows } = projectsTableData;
 
 
   const handleChangePage = (event, newPage) => {
@@ -177,25 +214,12 @@ function Tables() {
               labelDisplayedRows={({ from, to, count }) =>` ${from}-${to} of ${count}`}
             />
           </Space>
-            </SoftBox>
-          </Card>
+          <SoftBox p={2} mt={2} display="flex" justifyContent="space-between">
+          <SoftTypography variant="h6" color="success">Total USD Income: {formatUSD(totalUSDIncome)}</SoftTypography>
+          <SoftTypography variant="h6" color="success">Total IQD Income: {`${formatIQD(totalIQDIncome)} IQD`}</SoftTypography>
+          <SoftTypography variant="h6" color="error">Total USD Outcome: {formatUSD(totalUSDOutcome)}</SoftTypography>
+          <SoftTypography variant="h6" color="error">Total IQD Outcome: {`${formatIQD(totalIQDOutcome)} IQD`}</SoftTypography>
         </SoftBox>
-        <SoftBox mb={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">Projects Table</SoftTypography>
-            </SoftBox>
-            <SoftBox
-              sx={{
-                "& .MuiTableRow-root:not(:last-child)": {
-                  "& td": {
-                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                      `${borderWidth[1]} solid ${borderColor}`,
-                  },
-                },
-              }}
-            >
-              <Table columns={prCols} rows={prRows} />
             </SoftBox>
           </Card>
         </SoftBox>
