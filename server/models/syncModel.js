@@ -6,15 +6,19 @@ const Project = require('./projectModel');
 
 // Define associations
 User.hasMany(Transaction, { foreignKey: 'user_id' });
+Client.hasMany(Transaction, { foreignKey: 'receiver_id' });
 Client.hasMany(Transaction, { foreignKey: 'client_id' });
 Project.hasMany(Transaction, { foreignKey: 'project_id', as: 'transactions' });
 
 
 Project.belongsTo(User, { foreignKey: 'user_id' });
 Project.belongsTo(Client, { foreignKey: 'client_id' });
+
 Transaction.belongsTo(User, { foreignKey: 'user_id' });
 Transaction.belongsTo(Client, { foreignKey: 'client_id' });
 Transaction.belongsTo(Project, { foreignKey: 'project_id', as: 'project' });
+Transaction.belongsTo(Client, { as: 'receiver', foreignKey: 'receiver_id' }); // For the receiver
+
 
 // Sync all models
 sequelize.sync({ force: false }) // Use force: true only in development to reset the database
