@@ -43,6 +43,14 @@ const Transaction = sequelize.define('transactions', {
       key: 'id',
     },
   },
+  receiver_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
   client_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
