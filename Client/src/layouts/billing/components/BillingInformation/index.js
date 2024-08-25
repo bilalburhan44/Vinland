@@ -68,11 +68,11 @@ function ClientInformation() {
     {open && <ClientsModal open={open} setOpen={setOpen} ClientsToEdit={ClientsToEdit} refreshClients={getClients} />}
       <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <SoftTypography variant="h6" fontWeight="medium">
-          Clients Information
+          Contacts Information
         </SoftTypography>
         <SoftButton variant="gradient" color="info" onClick={handleAddClient}>
               <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-              &nbsp;add Client
+              &nbsp;add Contact
             </SoftButton>
         </SoftBox>
         <SoftBox pt={1} pb={2} px={2}>
