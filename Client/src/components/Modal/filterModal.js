@@ -2,10 +2,11 @@ import { Form, Input, Modal, message, DatePicker, Select, AutoComplete } from 'a
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getAllClients } from 'apicalls/client';
 import { getTransactions } from 'apicalls/transaction';
 import { getAllProjects } from 'apicalls/projects';
 import { getClient } from 'apicalls/client';
+import { getAllUsers } from 'apicalls/users';
+import { getAllClients } from 'apicalls/client';
 
 function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
     const formRef = useRef();
@@ -14,13 +15,17 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
     const dispatch = useDispatch();
     const { Option } = Select;
     const [paymentValue, setPaymentValue] = useState('');
+    const [receivers, setReceivers] = useState({});
+    const [receiverOption, setReceiverOption] = useState([]);
     const [projects, setProjects] = useState([]);
     const [projectOption, setProjectOption] = useState([]);
 
+    // Handle payment change
     const handlePaymentChange = (value) => {
         setPaymentValue(value);
     };
 
+    // Fetch projects
     async function fetchProjects() {
         try {
           const response = await getAllProjects();
@@ -42,6 +47,28 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
         }
     }, [filterOpen]);
 
+     // Fetch receivers
+  useEffect(() => {
+    async function fetchReceivers() {
+      try {
+        const response = await getAllClients();
+        if (response.success) {
+          setReceivers(response.data);
+          setReceiverOption(response.data.map(receiver => ({ value: receiver.name })));
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Failed to fetch Receivers");
+      }
+    }
+  
+      fetchReceivers();
+    
+  }, []);
+
+    // Handle project select
     const handleProjectSelect = async (value) => {
         const selectedProject = projects.find(project => project.project_name === value);
         if (selectedProject) {
@@ -58,6 +85,7 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
         }
       };
 
+    // Handle project search
     const handleSearch = (value) => {
         const filteredOptions = projects
           .filter(project => project.project_name.toLowerCase().includes(value.toLowerCase()))
@@ -65,6 +93,28 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
           setProjectOption(filteredOptions);
       };
 
+      // Handle receiver select
+  const  handleReceiverSelect= async (value) => {
+    const selectedReceiver = receivers.find(receiver => receiver.name === value);
+    if (selectedReceiver) {
+    try {
+        formRef.current.setFieldsValue({
+        receiverName: value,
+      });
+    } catch (error) {
+      message.error('Failed to fetch Receiver details');
+    }
+  }
+};
+
+ // Handle receiver search
+ const handleReceiverSearch = (value) => {
+    const filteredOptions = receivers
+      .filter(receiver =>  receiver.name.toLowerCase().includes(value.toLowerCase()))
+      ?.map(receiver => ({ value: receiver.name }));
+      setReceiverOption(filteredOptions);
+  };
+      // Handle onFinish
     const onFinish = async (values) => {
         const filters = {
             ...values,
@@ -104,7 +154,7 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
             <div className="flex flex-col gap-2">
                 <Form layout="vertical" ref={formRef} onFinish={onFinish}>
                     <div className="flex flex-row gap-2">
-                    <Form.Item label="Project Name" name="projectName" rules={rules}>
+                    <Form.Item label="Project Name" name="projectName">
                     <AutoComplete
                       options={projectOption}
                       onSelect={handleProjectSelect}
@@ -112,7 +162,7 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
                       placeholder="Search Project Name"
                     />
                   </Form.Item>
-                  <Form.Item label="Client Name" name="name" rules={rules}>
+                  <Form.Item label="Client Name" name="name">
                   <Input placeholder="Client Name" />
                   </Form.Item>
                   <Form.Item label="Phone Number" name="phoneNumber">
@@ -134,6 +184,15 @@ function FilterModal({ filterOpen, setFilterOpen, setFilters }) {
                                 </Select>
                             </Form.Item>
                         )}
+                            <Form.Item label="Receiver" name="receiverName">
+                            <AutoComplete
+                              options={receiverOption}
+                              onSelect={handleReceiverSelect}
+                              onSearch={handleReceiverSearch}
+                              placeholder="Search Receiver Name"
+                            />
+                          </Form.Item>
+                    
                     </div>
                     <div className="flex flex-row gap-2">
                         <Form.Item name="amountUSDMin" label="Min Amount USD" style={{ flex: 1 }}>
