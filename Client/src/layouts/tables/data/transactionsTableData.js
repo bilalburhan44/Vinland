@@ -61,7 +61,7 @@ const TransactionsTableData = ({ filters, onEdit, transactions, project, fetchDa
 
   const rows = transactions?.map((data) => {
     const localDate = moment(data.date).tz("Asia/Baghdad").format("YYYY-MM-DD HH:mm");
-    const { Client: clientDetails, User: userDetails } = data;
+    const { Client: clientDetails, User: userDetails, receiver: receiverDetails } = data;
     
     const menu = (
       <Menu>
@@ -124,6 +124,9 @@ const TransactionsTableData = ({ filters, onEdit, transactions, project, fetchDa
           {localDate}
         </SoftTypography>
       ),
+      Receiver: (
+        <SoftTypography fontWeight="medium">{receiverDetails ? receiverDetails.name : ""}</SoftTypography>
+      ),
       By: (
         <SoftTypography fontWeight="medium">{userDetails ? userDetails.name : ""}</SoftTypography>
       ),
@@ -155,6 +158,7 @@ const TransactionsTableData = ({ filters, onEdit, transactions, project, fetchDa
       { name: "payment", align: "center" },
       { name: "Desc", align: "left" },
       { name: "Date", align: "center" },
+      { name: "Receiver", align: "left" },
       { name: "By", align: "left" },
       { name: "action", align: "center" },
     ],
