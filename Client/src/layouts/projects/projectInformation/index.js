@@ -170,7 +170,7 @@ function ProjectsInformation() {
                     </SoftBox>
                     <SoftBox mb={1} lineHeight={0}>
                       <SoftTypography variant="caption" color="text">
-                        Client Name:&nbsp;&nbsp;&nbsp;
+                        Contact Name:&nbsp;&nbsp;&nbsp;
                         <SoftTypography
                           variant="caption"
                           fontWeight="medium"
