@@ -65,16 +65,16 @@ function ClientsModal({ open, setOpen, ClientsToEdit, refreshClients }) {
       onCancel={handleCancel}
       open={open}
       centered
-      title={ClientsToEdit ? "Edit Client" : "Add Client"}
+      title={ClientsToEdit ? "Edit Contact" : "Add Contact"}
       onOk={() => formRef.current.submit()}
-      okText={ClientsToEdit ? "Save" : "Add Client"}
+      okText={ClientsToEdit ? "Save" : "Add Contact"}
       cancelText="Cancel"
       okButtonProps={{ loading }}
     >
       <div className='flex flex-col gap-2'>
         <Form layout='vertical' ref={formRef} onFinish={onFinish}>
           <div className='flex flex-row gap-2'>
-            <Form.Item name="name" label="Client Name" rules={rules} style={{ flex: 1 }}>
+            <Form.Item name="name" label="Contact Name" rules={rules} style={{ flex: 1 }}>
               <Input type="text" />
             </Form.Item>
             <Form.Item name="phoneNumber" label="Phone Number" rules={phonerules} style={{ flex: 1 }}>
@@ -82,7 +82,7 @@ function ClientsModal({ open, setOpen, ClientsToEdit, refreshClients }) {
             </Form.Item>
           </div>
           <div className='flex flex-row gap-2'>
-            <Form.Item name="address" label="Client Address" style={{ flex: 1 }}>
+            <Form.Item name="address" label="Contact Address" style={{ flex: 1 }}>
               <Input type="text" />
             </Form.Item>
             <Form.Item name="source" label="Source" style={{ flex: 1 }}>
