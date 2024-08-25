@@ -7,6 +7,7 @@ import { updateTransaction, addTransaction } from "apicalls/transaction";
 import { getAllClients } from "apicalls/client";
 import { getAllProjects } from "apicalls/projects";
 import { getClient } from "apicalls/client";
+import { getAllUsers } from "apicalls/users";
 
 const { Option } = Select;
 
@@ -18,9 +19,13 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
   const [clientOptions, setClientOptions] = useState([]);
   const [projects, setProjects] = useState([]);
   const [projectOption, setProjectOption] = useState([]);
+  const [receivers, setReceivers] = useState({});
+  const [receiverOption, setReceiverOption] = useState([]);
   const [paymentValue, setPaymentValue] = useState(''); // State to store the selected payment value
 
 
+
+  // Fetch clients
   useEffect(() => {
     async function fetchClients() {
       try {
@@ -40,6 +45,7 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
 
   }, []);
 
+  // Fetch projects
   useEffect(() => {
     async function fetchProjects() {
       try {
@@ -59,8 +65,28 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
 
   }, []);
 
+  // Fetch receivers
+  useEffect(() => {
+    async function fetchReceivers() {
+      try {
+        const response = await getAllClients();
+        if (response.success) {
+          setReceivers(response.data);
+          setReceiverOption(response.data.map(receiver => ({ value: receiver.name })));
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        console.error(error);
+        message.error("Failed to fetch Receivers");
+      }
+    }
   
+      fetchReceivers();
+    
+  }, []);
 
+  // Set the payment value state based on the transaction type
   useEffect(() => {
     if (transactionToEdit) {
       form.setFieldsValue({
@@ -69,6 +95,7 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
         phoneNumber: transactionToEdit.Client.phoneNumber,
         type: transactionToEdit.type,
         payment: transactionToEdit.payment,
+        receiverName: transactionToEdit.Client.name,
         amount_iqd: transactionToEdit.amount_iqd,
         amount_usd: transactionToEdit.amount_usd,
         description: transactionToEdit.description,
@@ -81,6 +108,23 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
     }
   }, [transactionToEdit, form]);
 
+
+
+  // Handle receiver select
+  const  handleReceiverSelect= async (value) => {
+      const selectedReceiver = receivers.find(receiver => receiver.name === value);
+      if (selectedReceiver) {
+      try {
+        form.setFieldsValue({
+          receiverName: value,
+        });
+      } catch (error) {
+        message.error('Failed to fetch Receiver details');
+      }
+    }
+  };
+
+  // Handle project select
   const handleProjectSelect = async (value) => {
     const selectedProject = projects.find(project => project.project_name === value);
     if (selectedProject) {
@@ -97,6 +141,7 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
     }
   };
 
+  // Handle project search
   const handleSearch = (value) => {
     const filteredOptions = projects
       .filter(project => project.project_name.toLowerCase().includes(value.toLowerCase()))
@@ -104,10 +149,20 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
       setProjectOption(filteredOptions);
   };
 
+  // Handle receiver search
+  const handleReceiverSearch = (value) => {
+    const filteredOptions = receivers
+      .filter(receiver =>  receiver.name.toLowerCase().includes(value.toLowerCase()))
+      ?.map(receiver => ({ value: receiver.name }));
+      setReceiverOption(filteredOptions);
+  };
+
+  // Handle payment change
   const handlePaymentChange = (value) => {
     setPaymentValue(value); // Update the payment value state
   };
 
+  // Handle form submission
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -155,11 +210,13 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
     }
   };
 
+  // Handle form cancel
   const handleCancel = () => {
   setOpen(false);
   form.resetFields(); // Reset form fields on cancel
 };
 
+  // Validation functions
   const validateDivisibleBy250 = (_, value) => {
     if (value && value % 250 !== 0) {
       return Promise.reject(new Error('Invalid amount'));
@@ -167,6 +224,8 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
     return Promise.resolve();
   };
 
+  
+  // Validation functions
   const validateAmount = (_, value) => {
     const amountUSD = form.getFieldValue('amount_usd');
     const amountIQD = form.getFieldValue('amount_iqd');
@@ -210,7 +269,7 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
             placeholder="Search Project Name"
           />
         </Form.Item>
-        <Form.Item label="Client Name" name="clientName" rules={rules}>
+        <Form.Item label="Client Name" name="clientName"  rules={rules}>
         <Input placeholder="Client Name" disabled />
         </Form.Item>
         <Form.Item label="Phone Number" name="phoneNumber" rules={phonerules}>
@@ -232,6 +291,16 @@ const TransactionModal = ({ open, setOpen, transactionToEdit, refreshTransaction
               <Option value="monthly">Monthly</Option>
             </Select>
           </Form.Item>
+        )}
+        {paymentValue === "outcome" && (
+          <Form.Item label="Receiver" name="receiverName">
+          <AutoComplete
+            options={receiverOption}
+            onSelect={handleReceiverSelect}
+            onSearch={handleReceiverSearch}
+            placeholder="Search Receiver Name"
+          />
+        </Form.Item>
         )}
         <Form.Item label="Amount (USD)" name="amount_usd" rules={[{ validator: validateAmount }]}>
           <Input placeholder="Amount in USD" type="number" />
