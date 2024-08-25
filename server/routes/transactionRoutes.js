@@ -12,7 +12,7 @@ const Project = require('../models/projectModel');
 
 router.post('/addTransaction', async (req, res) => {
   try {
-    const {projectName, clientName, phoneNumber, type, payment, amount_usd, amount_iqd, description, date, userId } = req.body;
+    const {projectName, clientName, phoneNumber, type, payment, amount_usd, amount_iqd, description, date, userId, receiverName } = req.body;
 
     // Check if client exists
     const existingClient = await Client.findOne({
@@ -32,7 +32,7 @@ router.post('/addTransaction', async (req, res) => {
 
     const client = existingClient;
 
-
+    // Check if project exists
     const existingProject = await Project.findOne({
       where: {
         project_name: projectName,
@@ -48,6 +48,24 @@ router.post('/addTransaction', async (req, res) => {
     }
 
     const project = existingProject;
+
+    // check if receiver exists
+    const existingReceiver = await Client.findOne({
+      where: {
+        name: receiverName,
+      },
+    });
+
+    if (!existingReceiver) {
+      res.send({
+        success: false,
+        message: 'Receiver not found',
+      })
+      return;
+    }
+
+    const receiver = existingReceiver;
+
     // Fetch the latest exchange rate
     const latestExchangeRate = await ExchangeRate.findOne({
       order: [['updatedAt', 'DESC']],
@@ -67,6 +85,7 @@ router.post('/addTransaction', async (req, res) => {
       date,
       rate_id: latestExchangeRate.id,
       user_id: userId,
+      receiver_id: receiver.id,
       client_id: client.id,
       project_id: project.id
     });
@@ -154,6 +173,7 @@ router.get('/getTransactions', async (req, res) => {
       clientName,
       type,
       payment,
+      receiverName,
       amountUSDMin,
       amountUSDMax,
       amountIQDMin,
@@ -171,6 +191,11 @@ router.get('/getTransactions', async (req, res) => {
     if (clientName) {
       filter['$Client.name$'] = clientName;
     }
+
+    if (receiverName) {
+      filter['$receiver.name$'] = receiverName;
+    }
+
     if (type) {
       filter.type = type;
     }
@@ -200,6 +225,11 @@ router.get('/getTransactions', async (req, res) => {
         {
           model: Client,
           attributes: ['id', 'name', 'phoneNumber'],
+        },
+        {
+          model: Client,
+          as: 'receiver', 
+          attributes: ['id', 'name'],
         },
         {
           model: User,
